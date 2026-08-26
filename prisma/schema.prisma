@@ -1,0 +1,86 @@
+// GWS Instant Quote — data model
+//
+// Uses SQLite for a single, self-hostable local db file.
+// To migrate to Postgres later: change `provider` to "postgresql",
+// point DATABASE_URL at your instance, and (optionally) convert the
+// JSON-string array fields below to native `String[]` columns.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// A product / lot. This is the page context that feeds the estimator.
+model Deal {
+  id                 String   @id // e.g. "GWS-DEAL-50"
+  name               String
+  category           String
+  condition          String
+  listedUnitPrice    Float
+  retailRef          Float
+  unit               String
+  unitsPerPallet     Int
+  moq                Int
+  unitWeightLb       Float
+  // JSON string array of channel names, e.g. ["Amazon","Walmart"]
+  restrictedChannels String   @default("[]")
+  imageEmoji         String   @default("📦")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  quoteRequests QuoteRequest[]
+}
+
+/// Single editable config row that drives the estimator math.
+model Rates {
+  id                String   @id @default("default")
+  dutyRatePct       Float
+  insurancePct      Float
+  logisticsFeePct   Float
+  managedServicePct Float
+  freightPerLb      Float
+  zoneMultCA        Float
+  liftgateSurcharge Float
+  noDockHandling    Float
+  minFreight        Float
+  rangeBandPct      Float
+  updatedAt         DateTime @updatedAt
+}
+
+/// A saved lead. Mirrors the team's existing JSON schema plus estimate + meta.
+model QuoteRequest {
+  id        String   @id @default(cuid())
+  ref       String   @unique
+  createdAt DateTime @default(now())
+
+  // --- payload fields (schema the team already consumes) ---
+  buyerId               String
+  dealId                String
+  salesChannels         String // JSON array
+  quantity              Int
+  managedByGws          Boolean
+  destinationPostalCode String
+  hasLoadingDock        Boolean
+  hasForklift           Boolean
+  requiresLiftgate      Boolean
+  purchaseFrequency     String
+  budgetBand            String
+  insurance             Boolean
+
+  // --- stored alongside the payload ---
+  buyerName        String
+  estLow           Float
+  estHigh          Float
+  perUnit          Float
+  restrictedHit    String @default("[]") // JSON array of restricted channels selected
+  status           String @default("New")
+  payload          String // raw JSON payload the team receives
+
+  deal Deal @relation(fields: [dealId], references: [id])
+
+  @@index([createdAt])
+}
