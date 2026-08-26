@@ -25,6 +25,8 @@ model Deal {
   unit               String
   unitsPerPallet     Int
   moq                Int
+  availableQty       Int      @default(100)
+  country            String   @default("United States")
   unitWeightLb       Float
   // JSON string array of channel names, e.g. ["Amazon","Walmart"]
   restrictedChannels String   @default("[]")

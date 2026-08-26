@@ -39,6 +39,7 @@ export async function PUT(req: NextRequest) {
         unit: d.unit,
         unitsPerPallet: d.unitsPerPallet,
         moq: d.moq,
+        availableQty: d.availableQty,
         unitWeightLb: d.unitWeightLb,
         restrictedChannels: JSON.stringify(d.restrictedChannels),
         imageEmoji: d.imageEmoji,

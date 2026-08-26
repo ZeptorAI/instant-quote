@@ -30,6 +30,7 @@ export function PricingControls({
     unit: deal.unit,
     unitsPerPallet: deal.unitsPerPallet,
     moq: deal.moq,
+    availableQty: deal.availableQty,
     unitWeightLb: deal.unitWeightLb,
     imageEmoji: deal.imageEmoji,
   });
@@ -148,7 +149,13 @@ export function PricingControls({
               onChange={(v) => setD({ ...d, retailRef: v })}
             />
           </div>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 gap-3">
+            <NumField
+              label="Available qty"
+              value={d.availableQty}
+              step={1}
+              onChange={(v) => setD({ ...d, availableQty: v })}
+            />
             <NumField
               label="MOQ"
               value={d.moq}
@@ -156,7 +163,7 @@ export function PricingControls({
               onChange={(v) => setD({ ...d, moq: v })}
             />
             <NumField
-              label="Units / pallet"
+              label="Units / step"
               value={d.unitsPerPallet}
               step={1}
               onChange={(v) => setD({ ...d, unitsPerPallet: v })}

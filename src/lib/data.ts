@@ -14,6 +14,8 @@ export interface DealDTO {
   unit: string;
   unitsPerPallet: number;
   moq: number;
+  availableQty: number;
+  country: string;
   unitWeightLb: number;
   restrictedChannels: SalesChannel[];
   imageEmoji: string;
@@ -49,6 +51,8 @@ export async function getDeal(id: string): Promise<DealDTO | null> {
     unit: row.unit,
     unitsPerPallet: row.unitsPerPallet,
     moq: row.moq,
+    availableQty: row.availableQty,
+    country: row.country,
     unitWeightLb: row.unitWeightLb,
     restrictedChannels: parseChannels(row.restrictedChannels),
     imageEmoji: row.imageEmoji,

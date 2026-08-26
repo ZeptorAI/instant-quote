@@ -19,8 +19,7 @@ that is saved and forwarded to the team's webhook.
   self-host, and swappable to Postgres later)
 - One API route accepts a quote request, persists it, and forwards it to an
   outbound webhook (`QUOTE_WEBHOOK_URL`)
-- `/admin` is gated by a shared password (`ADMIN_PASSWORD`), checked in
-  middleware via HTTP Basic Auth (no accounts, minimal by design)
+- `/admin` is an open page (this is a demo — no auth)
 
 ---
 
@@ -44,8 +43,7 @@ Then open:
 
 - Storefront / estimator → http://localhost:3000  (redirects to the seeded deal
   `/deals/GWS-DEAL-50`)
-- Admin portal → http://localhost:3000/admin  (password = `ADMIN_PASSWORD`,
-  any username)
+- Admin portal → http://localhost:3000/admin  (open page, no login)
 
 ### Handy scripts
 
@@ -68,7 +66,6 @@ See [`.env.example`](.env.example):
 | Variable            | Purpose                                                        |
 | ------------------- | -------------------------------------------------------------- |
 | `DATABASE_URL`      | SQLite file path. Swap for a Postgres URL to migrate later.    |
-| `ADMIN_PASSWORD`    | Shared password that gates `/admin` (and `/api/admin/*`).      |
 | `QUOTE_WEBHOOK_URL` | Where each accepted quote request is POSTed (fire-and-forget). |
 
 **Set the webhook:** grab a throwaway URL from https://webhook.site, paste it
@@ -182,8 +179,8 @@ const rates = await getRates();
 ### Vercel
 
 1. Push this repo to GitHub and import it in Vercel.
-2. Set env vars in the Vercel project settings: `ADMIN_PASSWORD`,
-   `QUOTE_WEBHOOK_URL`, and `DATABASE_URL`.
+2. Set env vars in the Vercel project settings: `QUOTE_WEBHOOK_URL` and
+   `DATABASE_URL`.
    - SQLite on Vercel's ephemeral filesystem does **not** persist between
      deploys/invocations. For a real deployment, switch the datasource to
      Postgres (e.g. Vercel Postgres / Neon): change `provider = "postgresql"` in
@@ -206,8 +203,8 @@ npm run start        # serves on $PORT (default 3000)
 ## What was verified
 
 - `npm run build` — clean (no type or lint errors), all 7 routes compile.
-- Full round trip: submit on the product page → the request appears in the admin
-  portal → edit a rate → a fresh estimate reflects the new number immediately.
-- Admin gate: `/admin` returns 401 without the password, 200 with it.
+- Full round trip: click **Generate me an instant Quote** on the product page →
+  fill the form → the request appears in the admin portal → edit a rate → a
+  fresh estimate reflects the new number immediately.
 - Server-side recompute matches the spec math exactly (incl. CA duty, no-dock
   handling, liftgate, insurance, ±range band).

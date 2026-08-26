@@ -18,15 +18,17 @@ export const DEFAULT_RATES: RateInputs = {
 
 export const DEFAULT_DEAL = {
   id: "GWS-DEAL-50",
-  name: 'Apple iPad (9th Gen) 10.2" Wi-Fi 64GB — Customer Returns Pallet',
-  category: "Consumer Electronics",
-  condition: "Customer Returns — Tested Working",
-  listedUnitPrice: 149.0,
-  retailRef: 329.0,
+  name: '36" TV Stand with Electric Fireplace',
+  category: "Electronics Gadgets",
+  condition: "Closeout Deal",
+  country: "United States",
+  listedUnitPrice: 77.0, // GWS wholesale price / unit
+  retailRef: 299.0, // SRP / retail
   unit: "unit",
-  unitsPerPallet: 48,
-  moq: 48,
-  unitWeightLb: 1.6,
+  unitsPerPallet: 20,
+  moq: 20,
+  availableQty: 100,
+  unitWeightLb: 58.0,
   restrictedChannels: ["Amazon"] as string[],
-  imageEmoji: "📱",
+  imageEmoji: "🔥",
 };

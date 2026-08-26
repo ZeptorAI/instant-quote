@@ -120,6 +120,21 @@ h1, h2, h3, .font-display {
     filter: none;
   }
 
+  .btn-gold {
+    background: linear-gradient(180deg, #f6be2c, #efa80c);
+    color: #1a1205;
+    font-weight: 800;
+    border-radius: 12px;
+    padding: 0.9rem 1.1rem;
+    transition: filter 0.15s ease, transform 0.05s ease;
+  }
+  .btn-gold:hover {
+    filter: brightness(1.06);
+  }
+  .btn-gold:active {
+    transform: translateY(1px);
+  }
+
   .btn-ghost {
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--line);

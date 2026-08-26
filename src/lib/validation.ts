@@ -51,6 +51,7 @@ export const dealUpdateSchema = z.object({
   unit: z.string().min(1),
   unitsPerPallet: z.number().int().positive(),
   moq: z.number().int().positive(),
+  availableQty: z.number().int().positive(),
   unitWeightLb: z.number().positive(),
   restrictedChannels: z.array(z.enum(SALES_CHANNELS)),
   imageEmoji: z.string().min(1).max(8),
