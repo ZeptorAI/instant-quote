@@ -31,4 +31,5 @@ export const DEFAULT_DEAL = {
   unitWeightLb: 58.0,
   restrictedChannels: ["Amazon"] as string[],
   imageEmoji: "🔥",
+  imageUrl: "/product.jpg", // drop the photo at public/product.jpg
 };

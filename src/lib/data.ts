@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import { prisma } from "./prisma";
 import { DEFAULT_DEAL, DEFAULT_RATES } from "./defaults";
 import type { RateInputs } from "./estimator";
@@ -19,10 +21,22 @@ export interface DealDTO {
   unitWeightLb: number;
   restrictedChannels: SalesChannel[];
   imageEmoji: string;
+  imageUrl: string;
 }
 
 export interface RatesDTO extends RateInputs {
   id: string;
+}
+
+/** Only surface a /public image path if the file actually exists on disk. */
+function resolveImageUrl(url: string): string {
+  if (!url || !url.startsWith("/")) return "";
+  const filePath = path.join(process.cwd(), "public", url.replace(/^\//, ""));
+  try {
+    return fs.existsSync(filePath) ? url : "";
+  } catch {
+    return "";
+  }
 }
 
 function parseChannels(json: string): SalesChannel[] {
@@ -56,6 +70,7 @@ export async function getDeal(id: string): Promise<DealDTO | null> {
     unitWeightLb: row.unitWeightLb,
     restrictedChannels: parseChannels(row.restrictedChannels),
     imageEmoji: row.imageEmoji,
+    imageUrl: resolveImageUrl(row.imageUrl),
   };
 }
 

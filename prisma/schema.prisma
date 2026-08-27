@@ -31,6 +31,7 @@ model Deal {
   // JSON string array of channel names, e.g. ["Amazon","Walmart"]
   restrictedChannels String   @default("[]")
   imageEmoji         String   @default("📦")
+  imageUrl           String   @default("") // optional /public path, e.g. "/product.jpg"
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
 

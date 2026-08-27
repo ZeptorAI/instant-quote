@@ -20,6 +20,7 @@ export function DealExperience({
   rates: RatesDTO;
 }) {
   const [showQuote, setShowQuote] = useState(false);
+  const [imgOk, setImgOk] = useState(true);
   const quoteRef = useRef<HTMLDivElement>(null);
 
   const margin = deal.retailRef > 0 ? 1 - deal.listedUnitPrice / deal.retailRef : 0;
@@ -46,16 +47,33 @@ export function DealExperience({
       <section className="grid gap-6 lg:grid-cols-2">
         {/* Image */}
         <div className="card relative flex min-h-[340px] items-center justify-center overflow-hidden p-8">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue/10 via-transparent to-cyan/10" />
-          <span className="badge absolute right-4 top-4 bg-green/90 text-[#05261a]">
+          <span
+            className="badge absolute right-4 top-4 z-10"
+            style={{ background: "var(--green)", color: "#052e1f" }}
+          >
             ↗ Profit Margin {pct(margin)}
           </span>
-          <div className="relative text-center">
-            <div className="text-[128px] leading-none">{deal.imageEmoji}</div>
-            <div className="mt-4 text-xs uppercase tracking-widest text-muted">
-              {deal.category} · Lot preview
-            </div>
-          </div>
+          {deal.imageUrl && imgOk ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={deal.imageUrl}
+              alt={deal.name}
+              onError={() => setImgOk(false)}
+              className="relative max-h-[380px] w-auto rounded-xl object-contain"
+            />
+          ) : (
+            <>
+              <div className="absolute inset-0 bg-gradient-to-br from-blue/10 via-transparent to-cyan/10" />
+              <div className="relative text-center">
+                <div className="text-[128px] leading-none">
+                  {deal.imageEmoji}
+                </div>
+                <div className="mt-4 text-xs uppercase tracking-widest text-muted">
+                  {deal.category} · Lot preview
+                </div>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Info */}

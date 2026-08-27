@@ -86,6 +86,7 @@ async function main() {
       unitWeightLb: DEFAULT_DEAL.unitWeightLb,
       restrictedChannels: JSON.stringify(DEFAULT_DEAL.restrictedChannels),
       imageEmoji: DEFAULT_DEAL.imageEmoji,
+      imageUrl: DEFAULT_DEAL.imageUrl,
     },
     create: {
       id: DEFAULT_DEAL.id,
@@ -102,6 +103,7 @@ async function main() {
       unitWeightLb: DEFAULT_DEAL.unitWeightLb,
       restrictedChannels: JSON.stringify(DEFAULT_DEAL.restrictedChannels),
       imageEmoji: DEFAULT_DEAL.imageEmoji,
+      imageUrl: DEFAULT_DEAL.imageUrl,
     },
   });
   console.log(`  ✓ Deal ${deal.id}`);
